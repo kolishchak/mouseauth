@@ -1,0 +1,26 @@
+{
+  "extends":["airbnb"],
+  "parser": "babel-eslint",
+  "rules": {
+    "no-console": 0,
+    "indent": ["warn", 2, {"SwitchCase": 1}],
+    "linebreak-style": ["error", "windows"],
+    "no-empty": ["warn"],
+    "no-trailing-spaces" : ["warn"],
+    "comma-dangle": ["warn", "always-multiline"],
+    "import/no-extraneous-dependencies": ["off"],
+    "jsx-a11y/click-events-have-key-events": ["off"],
+    "class-methods-use-this" : ["off"],
+    "no-return-assign": ["off"],
+    "import/prefer-default-export": ["off"],
+    "consistent-return": ["off"],
+    "no-restricted-syntax": ["off"],
+    "no-continue": ["off"],
+    "no-confusing-arrow": ["off"],
+    "object-curly-newline": ["off"]
+  },
+  "env": {
+    "browser": true,
+    "jest": true
+  }
+}
