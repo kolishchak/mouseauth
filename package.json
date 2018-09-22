@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/kolishchak/mouseauth/issues"
   },
-  "homepage": "https://github.com/kolishchak/mouseauth#readme"
+  "homepage": "https://github.com/kolishchak/mouseauth#readme",
+  "dependencies": {
+    "express": "^4.16.3"
+  }
 }
