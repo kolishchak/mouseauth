@@ -5,9 +5,9 @@
   "main": "index.js",
   "scripts": {
     "build:client": "webpack --mode development",
-    "client": "webpack-dev-server --mode development --devtool inline-source-map --hot",
+    "client": "webpack-dev-server --mode development --devtool inline-source-map --hot --open",
     "server": "nodemon src/server",
-    "dev": "concurrently \"npm run server\" \"npm run client\""
+    "start": "concurrently \"npm run server\" \"npm run client\""
   },
   "repository": {
     "type": "git",
