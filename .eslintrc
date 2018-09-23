@@ -7,6 +7,7 @@
     "linebreak-style": ["error", "windows"],
     "no-empty": ["warn"],
     "no-trailing-spaces" : ["warn"],
+    "semi": ["error", "never"],
     "comma-dangle": ["warn", "always-multiline"],
     "import/no-extraneous-dependencies": ["off"],
     "jsx-a11y/click-events-have-key-events": ["off"],
@@ -17,10 +18,20 @@
     "no-restricted-syntax": ["off"],
     "no-continue": ["off"],
     "no-confusing-arrow": ["off"],
-    "object-curly-newline": ["off"]
+    "object-curly-newline": ["off"],
+    "react/prop-types": ["off"],
+    "react/jsx-indent-props": ["off"],
+    "react/no-unused-state": ["off"],
+    "react/jsx-filename-extension": ["off"],
+    "react/jsx-one-expression-per-line": ["off"],
+    "react/destructuring-assignment": ["off"],
+    "react/require-default-props": ["off"],
+    "react/prefer-stateless-function": ["warn"],
+    "react/no-array-index-key": ["off"]
   },
   "env": {
     "browser": true,
+    "node": true,
     "jest": true
   }
 }
