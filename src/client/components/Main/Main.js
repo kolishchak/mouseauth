@@ -1,15 +1,16 @@
 import React from 'react'
 import { Switch, Route } from 'react-router-dom'
+import { Layout } from 'antd'
 import Home from '../Home'
 import Dashboard from '../Dashboard'
 
 const Main = () => (
-  <main>
+  <Layout.Content>
     <Switch>
       <Route exact path="/" component={Home} />
       <Route path="/dashboard" component={Dashboard} />
     </Switch>
-  </main>
+  </Layout.Content>
 )
 
 export default Main

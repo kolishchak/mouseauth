@@ -1,12 +1,13 @@
 import React from 'react'
+import { Layout } from 'antd'
 import Header from './components/Header'
 import Main from './components/Main'
 
 const App = () => (
-  <div>
+  <Layout>
     <Header />
     <Main />
-  </div>
+  </Layout>
 )
 
 export default App
