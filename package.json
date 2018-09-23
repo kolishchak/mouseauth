@@ -6,7 +6,7 @@
   "scripts": {
     "build": "webpack --mode development",
     "preclient": "npm run build",
-    "client": "webpack-dev-server --mode development --open",
+    "client": "webpack-dev-server --mode development",
     "server": "nodemon",
     "start": "concurrently \"npm run server\" \"npm run client\""
   },
