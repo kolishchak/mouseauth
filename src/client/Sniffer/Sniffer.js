@@ -42,13 +42,13 @@ class Sniffer {
           x: (mouseSpeed.x - this.previousMouseSpeed.x) * 1000 / this.interval,
           y: (mouseSpeed.y - this.previousMouseSpeed.y) * 1000 / this.interval,
         }
-      }
 
-      // Update timelines if was some movement
-      if (mouseMovement.x !== 0 || mouseMovement.y !== 0) {
-        this.movementTimeline.push(mouseMovement)
-        this.speedTimeline.push(mouseSpeed)
-        this.accelerationTimeline.push(mouseAcceleration)
+        // Update timelines if was some movement
+        if (mouseMovement.x !== 0 || mouseMovement.y !== 0) {
+          this.movementTimeline.push(mouseMovement)
+          this.speedTimeline.push(mouseSpeed)
+          this.accelerationTimeline.push(mouseAcceleration)
+        }
       }
     }
 
