@@ -9,6 +9,10 @@ class Sniffer {
     this.previousMousePosition = undefined
     this.currentMousePosition = undefined
     this.previousMouseSpeed = undefined
+
+    this.movementTimeline = []
+    this.speedTimeline = []
+    this.accelerationTimeline = []
   }
 
   setMousePosition = (event) => {
@@ -16,10 +20,12 @@ class Sniffer {
   }
 
   onMouseMove = () => {
+    let mouseMovement
     let mouseSpeed
+    let mouseAcceleration
 
     if (this.previousMousePosition) {
-      const mouseMovement = {
+      mouseMovement = {
         x: this.currentMousePosition.x - this.previousMousePosition.x,
         y: this.currentMousePosition.y - this.previousMousePosition.y,
       }
@@ -32,12 +38,17 @@ class Sniffer {
 
       // Acceleration
       if (this.previousMouseSpeed) {
-        const mouseAcceleration = {
+        mouseAcceleration = {
           x: (mouseSpeed.x - this.previousMouseSpeed.x) * 1000 / this.interval,
           y: (mouseSpeed.y - this.previousMouseSpeed.y) * 1000 / this.interval,
         }
+      }
 
-        console.log(mouseAcceleration)
+      // Update timelines if was some movement
+      if (mouseMovement.x !== 0 || mouseMovement.y !== 0) {
+        this.movementTimeline.push(mouseMovement)
+        this.speedTimeline.push(mouseSpeed)
+        this.accelerationTimeline.push(mouseAcceleration)
       }
     }
 
@@ -63,11 +74,12 @@ class Sniffer {
     clearInterval(this.mouseMoveInterval)
     this.mouseMoveInterval = undefined
 
-    // Set defaults
-    this.previousMousePosition = undefined
-    this.currentMousePosition = undefined
-
     console.log('Stopped sniffing...')
+
+    console.log('Timelines:')
+    console.log(JSON.stringify(this.movementTimeline))
+    console.log(JSON.stringify(this.speedTimeline))
+    console.log(JSON.stringify(this.accelerationTimeline))
   }
 }
 
