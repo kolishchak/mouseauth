@@ -8,7 +8,6 @@ import Sniffer from './Sniffer'
 // Init sniffer
 const sniffer = new Sniffer()
 sniffer.run()
-setTimeout(() => sniffer.stop(), 10000)
 
 ReactDOM.render((
   <BrowserRouter>

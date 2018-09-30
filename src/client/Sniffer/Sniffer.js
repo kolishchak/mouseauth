@@ -1,22 +1,48 @@
+import axios from 'axios'
 import { getMousePosition, toTwoDecimals } from './utils'
 
 class Sniffer {
-  constructor({ interval = 100 } = {}) {
-    this.interval = interval // In milliseconds
+  constructor({
+    mousePositionTrackInterval = 100,
+    fetchInterval = 5000,
+  } = {}) {
+    this.mousePositionTrackInterval = mousePositionTrackInterval // In milliseconds
+    this.fetchInterval = fetchInterval
 
-    this.mouseMoveInterval = undefined
+    this.setIntervalLink = undefined
 
     this.previousMousePosition = undefined
     this.currentMousePosition = undefined
     this.previousMouseSpeed = undefined
 
-    this.movementTimeline = []
-    this.speedTimeline = []
-    this.accelerationTimeline = []
+    this.timeline = []
   }
 
   setMousePosition = (event) => {
     this.currentMousePosition = getMousePosition(event)
+  }
+
+  updateTimelines = ({ mouseMovement, mouseSpeed, mouseAcceleration }) => {
+    this.timeline.push({
+      mX: mouseMovement.x,
+      mY: mouseMovement.y,
+      sX: mouseSpeed.x,
+      sY: mouseSpeed.y,
+      aX: mouseAcceleration.x,
+      aY: mouseAcceleration.y,
+    })
+
+    // If user moved mouse greater than or equal fetchInterval time
+    // send timelines data to server
+    if (this.timeline.length * this.mousePositionTrackInterval >= this.fetchInterval) {
+      // TODO: Properly handle server response
+      axios.post('/api/postUserTimeline', { timeline: JSON.stringify(this.timeline) })
+        .then(response => console.log(response))
+        .catch(error => console.error(error))
+
+      // Clear timeline
+      this.timeline = []
+    }
   }
 
   onMouseMove = () => {
@@ -32,22 +58,20 @@ class Sniffer {
 
       // Speed
       mouseSpeed = {
-        x: toTwoDecimals(Math.abs(mouseMovement.x) * 1000 / this.interval),
-        y: toTwoDecimals(Math.abs(mouseMovement.y) * 1000 / this.interval),
+        x: toTwoDecimals(Math.abs(mouseMovement.x) * 1000 / this.mousePositionTrackInterval),
+        y: toTwoDecimals(Math.abs(mouseMovement.y) * 1000 / this.mousePositionTrackInterval),
       } // In px/second
 
       // Acceleration
       if (this.previousMouseSpeed) {
         mouseAcceleration = {
-          x: (mouseSpeed.x - this.previousMouseSpeed.x) * 1000 / this.interval,
-          y: (mouseSpeed.y - this.previousMouseSpeed.y) * 1000 / this.interval,
+          x: (mouseSpeed.x - this.previousMouseSpeed.x) * 1000 / this.mousePositionTrackInterval,
+          y: (mouseSpeed.y - this.previousMouseSpeed.y) * 1000 / this.mousePositionTrackInterval,
         }
 
         // Update timelines if was some movement
         if (mouseMovement.x !== 0 || mouseMovement.y !== 0) {
-          this.movementTimeline.push(mouseMovement)
-          this.speedTimeline.push(mouseSpeed)
-          this.accelerationTimeline.push(mouseAcceleration)
+          this.updateTimelines({ mouseMovement, mouseSpeed, mouseAcceleration })
         }
       }
     }
@@ -61,25 +85,20 @@ class Sniffer {
     document.onmousemove = this.setMousePosition
 
     this.onMouseMove()
-    this.mouseMoveInterval = setInterval(this.onMouseMove, this.interval)
+    this.setIntervalLink = setInterval(this.onMouseMove, this.mousePositionTrackInterval)
 
     console.log('Started sniffing...')
   }
 
-  stop = () => {
+  pause = () => {
     // Stop setting mouse position
     document.onmousemove = undefined
 
     // Clear interval
-    clearInterval(this.mouseMoveInterval)
-    this.mouseMoveInterval = undefined
+    clearInterval(this.setIntervalLink)
+    this.setIntervalLink = undefined
 
-    console.log('Stopped sniffing...')
-
-    console.log('Timelines:')
-    console.log(JSON.stringify(this.movementTimeline))
-    console.log(JSON.stringify(this.speedTimeline))
-    console.log(JSON.stringify(this.accelerationTimeline))
+    console.log('Paussed sniffing...')
   }
 }
 
