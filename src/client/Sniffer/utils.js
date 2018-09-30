@@ -3,6 +3,4 @@ export const getMousePosition = event => ({
   y: event.clientY,
 })
 
-export const isStandBy = (mousePositionDelta) => {
-  return mousePositionDelta.x === 0 && mousePositionDelta.y === 0
-}
+export const toTwoDecimals = number => Number(number.toFixed(2))
