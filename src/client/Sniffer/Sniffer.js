@@ -4,7 +4,7 @@ import { getMousePosition, toTwoDecimals } from './utils'
 class Sniffer {
   constructor({
     mousePositionTrackInterval = 100,
-    fetchInterval = 5000,
+    fetchInterval = 15000,
   } = {}) {
     this.mousePositionTrackInterval = mousePositionTrackInterval // In milliseconds
     this.fetchInterval = fetchInterval
@@ -36,7 +36,7 @@ class Sniffer {
     // send timelines data to server
     if (this.timeline.length * this.mousePositionTrackInterval >= this.fetchInterval) {
       // TODO: Properly handle server response
-      axios.post('/api/postUserTimeline', { timeline: JSON.stringify(this.timeline) })
+      axios.post('/api/postUserTimeline', { timeline: this.timeline })
         .then(response => console.log(response))
         .catch(error => console.error(error))
 

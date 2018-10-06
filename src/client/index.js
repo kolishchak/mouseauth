@@ -6,7 +6,7 @@ import App from './App'
 import Sniffer from './Sniffer'
 
 // Init sniffer
-const sniffer = new Sniffer()
+const sniffer = new Sniffer({ fetchInterval: 2000 })
 sniffer.run()
 
 ReactDOM.render((
