@@ -15,7 +15,14 @@ class Sniffer {
     this.currentMousePosition = undefined
     this.previousMouseSpeed = undefined
 
-    this.timeline = []
+    this.timelines = {
+      mX: [],
+      mY: [],
+      sX: [],
+      sY: [],
+      aX: [],
+      aY: [],
+    }
   }
 
   setMousePosition = (event) => {
@@ -23,25 +30,30 @@ class Sniffer {
   }
 
   updateTimelines = ({ mouseMovement, mouseSpeed, mouseAcceleration }) => {
-    this.timeline.push({
-      mX: mouseMovement.x,
-      mY: mouseMovement.y,
-      sX: mouseSpeed.x,
-      sY: mouseSpeed.y,
-      aX: mouseAcceleration.x,
-      aY: mouseAcceleration.y,
-    })
+    this.timelines.mX.push(mouseMovement.x)
+    this.timelines.mY.push(mouseMovement.y)
+    this.timelines.sX.push(mouseSpeed.x)
+    this.timelines.sY.push(mouseSpeed.y)
+    this.timelines.aX.push(mouseAcceleration.x)
+    this.timelines.aY.push(mouseAcceleration.y)
 
     // If user moved mouse greater than or equal fetchInterval time
     // send timelines data to server
-    if (this.timeline.length * this.mousePositionTrackInterval >= this.fetchInterval) {
+    if (this.timelines.mX.length * this.mousePositionTrackInterval >= this.fetchInterval) {
       // TODO: Properly handle server response
-      axios.post('/api/postUserTimeline', { timeline: this.timeline })
+      axios.post('/api/postUserTimeline', { timelines: this.timelines })
         .then(response => console.log(response))
         .catch(error => console.error(error))
 
       // Clear timeline
-      this.timeline = []
+      this.timelines = {
+        mX: [],
+        mY: [],
+        sX: [],
+        sY: [],
+        aX: [],
+        aY: [],
+      }
     }
   }
 

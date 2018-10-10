@@ -23,9 +23,10 @@ app.use(express.static(path.join(__dirname, 'dist')))
 app.post('/api/postUserTimeline', async (req, res) => {
   try {
     const pythonRes = await flaskAxios.post('/api/linguistic', req.body)
-    res.status(200).send(pythonRes)
+    // pythonRes.data
+    res.status(200).send('ok')
   } catch (error) {
-    res.status(error.response.status).send(error.response.data)
+    res.status(500).send('error')
   }
 })
 
