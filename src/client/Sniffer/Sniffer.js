@@ -42,7 +42,7 @@ class Sniffer {
     if (this.timelines.mX.length * this.mousePositionTrackInterval >= this.fetchInterval) {
       // TODO: Properly handle server response
       axios.post('/api/postUserTimeline', { timelines: this.timelines })
-        .then(response => console.log(response))
+        .then(response => console.log(response.data))
         .catch(error => console.error(error))
 
       // Clear timeline
