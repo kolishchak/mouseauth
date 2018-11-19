@@ -3,6 +3,7 @@
   "parser": "babel-eslint",
   "rules": {
     "no-console": 0,
+    "max-len": ["error", { "code": 120 }],
     "indent": ["warn", 2, {"SwitchCase": 1}],
     "linebreak-style": ["error", "windows"],
     "no-empty": ["warn"],

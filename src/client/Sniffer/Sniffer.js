@@ -40,6 +40,8 @@ class Sniffer {
     // If user moved mouse greater than or equal fetchInterval time
     // send timelines data to server
     if (this.timelines.mX.length * this.mousePositionTrackInterval >= this.fetchInterval) {
+      console.log(JSON.stringify(this.timelines))
+
       // TODO: Properly handle server response
       axios.post('/api/postUserTimeline', { timelines: this.timelines })
         .then(response => console.log(response.data))

@@ -4,7 +4,7 @@ import Header from './components/Header'
 import Main from './components/Main'
 
 const App = () => (
-  <Layout>
+  <Layout style={{ minHeight: '100vh' }}>
     <Header />
     <Main />
   </Layout>
