@@ -6,6 +6,30 @@ const axios = require('axios')
 const NODE_PORT = 8080
 const FLASK_PORT = 5000
 
+const yellowLog = () => console.log('user id: 5c00a63fe6c3f90cdca646ab status: \x1b[33mtraining\x1b[0m')
+const greenLog = () => console.log('user id: 5c00a63fe6c3f90cdca646ab status: \x1b[32mok\x1b[0m')
+const redLog = () => console.log('user id: 5c00a63fe6c3f90cdca646ab status: \x1b[31mwrong user\x1b[0m')
+
+const handlePythonResponse = (pythonRes) => {
+  switch (pythonRes.code) {
+    case 'training': {
+      yellowLog()
+      break
+    }
+    case 'ok': {
+      greenLog()
+      break
+    }
+    case 'bad': {
+      redLog()
+      break
+    }
+    default: {
+      console.error('Unexpected python response code')
+    }
+  }
+}
+
 const flaskAxios = axios.create({
   proxy: {
     host: 'localhost',
@@ -23,6 +47,12 @@ app.use(express.static(path.join(__dirname, 'dist')))
 app.post('/api/postUserTimeline', async (req, res) => {
   try {
     const pythonRes = await flaskAxios.post('/api/linguistic', req.body)
+
+    if (pythonRes.error) {
+      throw new Error(pythonRes.error)
+    }
+
+    handlePythonResponse(pythonRes.data)
 
     res.status(200).send(pythonRes.data)
   } catch (error) {
